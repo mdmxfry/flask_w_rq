@@ -1,0 +1,26 @@
+version: "3.0"
+
+services:
+
+  rmq:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    volumes:
+      - /opt/redis/etc/redis.conf:/usr/local/etc/redis/redis.conf
+      - /opt/redis/data:/data
+    networks:
+      micro_net:
+        aliases:
+          - redis
+
+  webhook:
+    build: {context: ../, dockerfile: app/Dockerfile}
+    image: mdmxfry/flask_app
+    networks:
+      micro_net:
+
+networks:
+  micro_net:
