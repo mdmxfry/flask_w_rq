@@ -2,7 +2,7 @@ version: "3.0"
 
 services:
 
-  rmq:
+  redis:
     image: redis:latest
     ports:
       - "6379:6379"
@@ -15,6 +15,14 @@ services:
       micro_net:
         aliases:
           - redis
+
+  nginx:
+    image: mdmxfry/nginx
+    build: {context: ../nginx, dockerfile: Dockerfile}
+    ports:
+      - "80:80"
+    networks:
+      micro_net:
 
   webhook:
     build: {context: ../, dockerfile: app/Dockerfile}
